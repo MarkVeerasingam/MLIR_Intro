@@ -1,69 +1,54 @@
 ; ModuleID = 'LLVMDialectModule'
 source_filename = "LLVMDialectModule"
 
-declare ptr @malloc(i64)
+@__constant_2x2xf32_0 = private constant [2 x [2 x float]] [[2 x float] [float 5.000000e+00, float 6.000000e+00], [2 x float] [float 7.000000e+00, float 8.000000e+00]], align 64
+@__constant_2x2xf32 = private constant [2 x [2 x float]] [[2 x float] [float 1.000000e+00, float 2.000000e+00], [2 x float] [float 3.000000e+00, float 4.000000e+00]], align 64
 
-define { ptr, ptr, i64, [2 x i64], [2 x i64] } @main() {
-  %1 = call ptr @malloc(i64 80)
-  %2 = ptrtoint ptr %1 to i64
-  %3 = add i64 %2, 63
-  %4 = urem i64 %3, 64
-  %5 = sub i64 %3, %4
-  %6 = inttoptr i64 %5 to ptr
-  %7 = call ptr @malloc(i64 80)
-  %8 = ptrtoint ptr %7 to i64
-  %9 = add i64 %8, 63
-  %10 = urem i64 %9, 64
-  %11 = sub i64 %9, %10
-  %12 = inttoptr i64 %11 to ptr
-  %13 = call ptr @malloc(i64 80)
-  %14 = ptrtoint ptr %13 to i64
-  %15 = add i64 %14, 63
-  %16 = urem i64 %15, 64
-  %17 = sub i64 %15, %16
-  %18 = inttoptr i64 %17 to ptr
-  %19 = insertvalue { ptr, ptr, i64, [2 x i64], [2 x i64] } poison, ptr %13, 0
-  %20 = insertvalue { ptr, ptr, i64, [2 x i64], [2 x i64] } %19, ptr %18, 1
-  %21 = insertvalue { ptr, ptr, i64, [2 x i64], [2 x i64] } %20, i64 0, 2
-  %22 = insertvalue { ptr, ptr, i64, [2 x i64], [2 x i64] } %21, i64 2, 3, 0
-  %23 = insertvalue { ptr, ptr, i64, [2 x i64], [2 x i64] } %22, i64 2, 3, 1
-  %24 = insertvalue { ptr, ptr, i64, [2 x i64], [2 x i64] } %23, i64 2, 4, 0
-  %25 = insertvalue { ptr, ptr, i64, [2 x i64], [2 x i64] } %24, i64 1, 4, 1
-  br label %26
+define { ptr, ptr, i64, [2 x i64], [2 x i64] } @tensor_add(ptr %0, ptr %1, i64 %2, i64 %3, i64 %4, i64 %5, i64 %6) {
+  %8 = insertvalue { ptr, ptr, i64, [2 x i64], [2 x i64] } poison, ptr %0, 0
+  %9 = insertvalue { ptr, ptr, i64, [2 x i64], [2 x i64] } %8, ptr %1, 1
+  %10 = insertvalue { ptr, ptr, i64, [2 x i64], [2 x i64] } %9, i64 %2, 2
+  %11 = insertvalue { ptr, ptr, i64, [2 x i64], [2 x i64] } %10, i64 %3, 3, 0
+  %12 = insertvalue { ptr, ptr, i64, [2 x i64], [2 x i64] } %11, i64 %5, 4, 0
+  %13 = insertvalue { ptr, ptr, i64, [2 x i64], [2 x i64] } %12, i64 %4, 3, 1
+  %14 = insertvalue { ptr, ptr, i64, [2 x i64], [2 x i64] } %13, i64 %6, 4, 1
+  br label %15
 
-26:                                               ; preds = %46, %0
-  %27 = phi i64 [ %47, %46 ], [ 0, %0 ]
-  %28 = icmp slt i64 %27, 2
-  br i1 %28, label %29, label %48
+15:                                               ; preds = %37, %7
+  %16 = phi i64 [ %38, %37 ], [ 0, %7 ]
+  %17 = icmp slt i64 %16, 2
+  br i1 %17, label %18, label %39
 
-29:                                               ; preds = %32, %26
-  %30 = phi i64 [ %45, %32 ], [ 0, %26 ]
-  %31 = icmp slt i64 %30, 2
-  br i1 %31, label %32, label %46
+18:                                               ; preds = %21, %15
+  %19 = phi i64 [ %36, %21 ], [ 0, %15 ]
+  %20 = icmp slt i64 %19, 2
+  br i1 %20, label %21, label %37
 
-32:                                               ; preds = %29
-  %33 = mul i64 %27, 2
-  %34 = add i64 %33, %30
-  %35 = getelementptr float, ptr %6, i64 %34
-  %36 = load float, ptr %35, align 4
-  %37 = mul i64 %27, 2
-  %38 = add i64 %37, %30
-  %39 = getelementptr float, ptr %12, i64 %38
-  %40 = load float, ptr %39, align 4
-  %41 = fadd float %36, %40
-  %42 = mul i64 %27, 2
-  %43 = add i64 %42, %30
-  %44 = getelementptr float, ptr %18, i64 %43
-  store float %41, ptr %44, align 4
-  %45 = add i64 %30, 1
-  br label %29
+21:                                               ; preds = %18
+  %22 = mul i64 %16, 2
+  %23 = add i64 %22, %19
+  %24 = getelementptr float, ptr @__constant_2x2xf32, i64 %23
+  %25 = load float, ptr %24, align 4
+  %26 = mul i64 %16, 2
+  %27 = add i64 %26, %19
+  %28 = getelementptr float, ptr @__constant_2x2xf32_0, i64 %27
+  %29 = load float, ptr %28, align 4
+  %30 = fadd float %25, %29
+  %31 = getelementptr float, ptr %1, i64 %2
+  %32 = mul i64 %16, %5
+  %33 = mul i64 %19, %6
+  %34 = add i64 %32, %33
+  %35 = getelementptr float, ptr %31, i64 %34
+  store float %30, ptr %35, align 4
+  %36 = add i64 %19, 1
+  br label %18
 
-46:                                               ; preds = %29
-  %47 = add i64 %27, 1
-  br label %26
+37:                                               ; preds = %18
+  %38 = add i64 %16, 1
+  br label %15
 
-48:                                               ; preds = %26
-  ret { ptr, ptr, i64, [2 x i64], [2 x i64] } %25
+39:                                               ; preds = %15
+  ret { ptr, ptr, i64, [2 x i64], [2 x i64] } %14
 }
 
 !llvm.module.flags = !{!0}

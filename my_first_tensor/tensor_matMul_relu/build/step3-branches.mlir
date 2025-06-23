@@ -1,5 +1,5 @@
 module {
-  func.func @main() -> memref<256x1024xf32> {
+  func.func @tensor_multiply() -> memref<256x1024xf32> {
     %c512 = arith.constant 512 : index
     %c1024 = arith.constant 1024 : index
     %c1 = arith.constant 1 : index
@@ -48,26 +48,7 @@ module {
     %19 = arith.addi %6, %c1 : index
     cf.br ^bb5(%19 : index)
   ^bb11:  // pred: ^bb5
-    %alloc_2 = memref.alloc() {alignment = 64 : i64} : memref<256x1024xf32>
-    cf.br ^bb12(%c0 : index)
-  ^bb12(%20: index):  // 2 preds: ^bb11, ^bb15
-    %21 = arith.cmpi slt, %20, %c256 : index
-    cf.cond_br %21, ^bb13(%c0 : index), ^bb16
-  ^bb13(%22: index):  // 2 preds: ^bb12, ^bb14
-    %23 = arith.cmpi slt, %22, %c1024 : index
-    cf.cond_br %23, ^bb14, ^bb15
-  ^bb14:  // pred: ^bb13
-    %24 = memref.load %alloc_1[%20, %22] : memref<256x1024xf32>
-    %25 = arith.cmpf ugt, %24, %cst : f32
-    %26 = arith.select %25, %24, %cst : f32
-    memref.store %26, %alloc_2[%20, %22] : memref<256x1024xf32>
-    %27 = arith.addi %22, %c1 : index
-    cf.br ^bb13(%27 : index)
-  ^bb15:  // pred: ^bb13
-    %28 = arith.addi %20, %c1 : index
-    cf.br ^bb12(%28 : index)
-  ^bb16:  // pred: ^bb12
-    return %alloc_2 : memref<256x1024xf32>
+    return %alloc_1 : memref<256x1024xf32>
   }
 }
 

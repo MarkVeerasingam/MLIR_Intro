@@ -13,7 +13,7 @@ MLIR_DIR=/mnt/e/Dev/llvm_unix/llvm-project/build/bin
 MLIR_OPT=$MLIR_DIR/mlir-opt
 MLIR_TRANSLATE=$MLIR_DIR/mlir-translate
 
-INPUT_FILE="simple_tensor_add.mlir"
+INPUT_FILE="simple_tensor_multiply.mlir"
 BUILD_DIR="build"
 OUT_PREFIX="$BUILD_DIR/step"
 

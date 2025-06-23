@@ -1,6 +1,6 @@
 #map = affine_map<(i, j) -> (i, j)>
 module {
-    func.func @main() -> tensor<256x1024xf32> {
+    func.func @tensor_multiply() -> tensor<256x1024xf32> {
         %FC_INPUT = tensor.empty() : tensor<256x512xf32>
         %FC_WEIGHT = tensor.empty() : tensor<512x1024xf32>
         %c_init = arith.constant 0.0 : f32

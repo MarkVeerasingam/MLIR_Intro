@@ -1,4 +1,10 @@
 #!/bin/bash
+
+# Referencing this build script from "MLIR Beginner-Friendly Tutorial: Part 1"
+# by Alexandre Singer
+# please check the him and his great video out!!
+# https://www.youtube.com/watch?v=Uno_XhtkT5E&t=1644s
+
 set -euo pipefail
 
 # set the build bin of MLIR
@@ -7,7 +13,7 @@ MLIR_DIR=/mnt/e/Dev/llvm_unix/llvm-project/build/bin
 MLIR_OPT=$MLIR_DIR/mlir-opt
 MLIR_TRANSLATE=$MLIR_DIR/mlir-translate
 
-INPUT_FILE="simple_tensor_multiply.mlir"
+INPUT_FILE="simple_mat_mul.mlir"
 BUILD_DIR="build"
 OUT_PREFIX="$BUILD_DIR/step"
 

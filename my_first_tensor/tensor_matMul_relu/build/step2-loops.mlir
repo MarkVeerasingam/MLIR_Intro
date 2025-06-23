@@ -1,5 +1,5 @@
 module {
-  func.func @main() -> memref<256x1024xf32> {
+  func.func @tensor_multiply() -> memref<256x1024xf32> {
     %c512 = arith.constant 512 : index
     %c1024 = arith.constant 1024 : index
     %c1 = arith.constant 1 : index
@@ -26,16 +26,7 @@ module {
         }
       }
     }
-    %alloc_2 = memref.alloc() {alignment = 64 : i64} : memref<256x1024xf32>
-    scf.for %arg0 = %c0 to %c256 step %c1 {
-      scf.for %arg1 = %c0 to %c1024 step %c1 {
-        %0 = memref.load %alloc_1[%arg0, %arg1] : memref<256x1024xf32>
-        %1 = arith.cmpf ugt, %0, %cst : f32
-        %2 = arith.select %1, %0, %cst : f32
-        memref.store %2, %alloc_2[%arg0, %arg1] : memref<256x1024xf32>
-      }
-    }
-    return %alloc_2 : memref<256x1024xf32>
+    return %alloc_1 : memref<256x1024xf32>
   }
 }
 
