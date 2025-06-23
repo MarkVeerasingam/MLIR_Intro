@@ -1,7 +1,9 @@
 module {
-  func.func @tensor_add(%out: tensor<2x2xf32>) -> tensor<2x2xf32> {
+  func.func @tensor_add() -> tensor<2x2xf32> {
     %a = arith.constant dense<[[1.0, 2.0], [3.0, 4.0]]> : tensor<2x2xf32>
     %b = arith.constant dense<[[5.0, 6.0], [7.0, 8.0]]> : tensor<2x2xf32>
+    %c_init = arith.constant 0.0 : f32
+    %out = tensor.splat %c_init : tensor<2x2xf32>
 
     %sum = linalg.generic
       {
